@@ -37,11 +37,11 @@ void dfs1 (int a) {
     book.push(a);
 }
 
-void dfs2 (int a, int b) {
+void dfs2 (int a) {
     vis[a] = true;
     scc[a] = idx;
     for (auto i: rev[a]) {
-        if (!vis[i]) dfs2(i, b);
+        if (!vis[i]) dfs2(i);
     }
 }
 
@@ -53,7 +53,7 @@ int main (int argc, const char* argv[]) {
     for (int i = 0; i < m; i ++) {
         cin >> a >> b;
         gp[a].pb(b);
-        rev[b].pb(a);
+        rev[b].pb(a); // 將Graph反轉建立一張
     }
 
     for (int i = 1; i <= n; i ++) {
@@ -67,7 +67,7 @@ int main (int argc, const char* argv[]) {
         book.pop();
         if (vis[now]) continue;
         idx ++;
-        dfs2(now, now);
+        dfs2(now);
     }
 
     vi in(idx, 0);
@@ -75,7 +75,7 @@ int main (int argc, const char* argv[]) {
     for (int i = 1; i <= n; i ++) {
         for (auto j: gp[i]) {
             if (scc[i] != scc[j]) {
-                in[scc[j] - 1] ++;
+                in[scc[j] - 1] ++; // 計算入度
             }
         }
     }
